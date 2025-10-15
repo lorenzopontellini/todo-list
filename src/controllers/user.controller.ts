@@ -5,8 +5,8 @@ import { toUserDto } from "../utils/mapper";
 import { UserSchema, UserSchemaOrError } from "../schema/auth.schema";
 
 export async function updateName(
-  req: Request<{}, UserSchema, UpdateNameRequest>, 
-  res: Response<UserSchema>) {
+  req: Request<{}, UserSchemaOrError, UpdateNameRequest>, 
+  res: Response<UserSchemaOrError>) {
   
   const user = (req as any).user;
   const { name } = req.body;

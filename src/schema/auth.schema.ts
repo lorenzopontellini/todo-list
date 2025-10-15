@@ -34,7 +34,9 @@ export type ErrorResponse = z.infer<typeof errorResponseSchema>;
 
 export type CreateUserRequest = z.infer<typeof registerSchemaRequest>;
 export type UserSchema = z.infer<typeof userSchema>;
-export type UserSchemaOrError = UserSchema | { error: string };
+export type CreateUserResponseOrError = UserSchema | ErrorResponse;
+export type UserSchemaOrError = UserSchema | ErrorResponse;
 
 export type LoginRequest = z.infer<typeof loginSchemaRequest>;
-export type LoginResponse = z.infer<typeof loginSchemaResponse>;
+export type TokenSchema = z.infer<typeof loginSchemaResponse>;
+export type LoginResponseOrError = TokenSchema | ErrorResponse;

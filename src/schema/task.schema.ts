@@ -1,4 +1,5 @@
-import { z, ZodIssue } from "zod";
+import { z } from "zod";
+import { ErrorResponse } from "./auth.schema";
 
 export const createTaskSchema = z.object({
   title: z.string().min(1),
@@ -8,12 +9,6 @@ export const createTaskSchema = z.object({
 });
 
 export type CreateTaskRequest = z.infer<typeof createTaskSchema>;
-
-export const createTaskSchemaResponse = z.object({
-  id: z.string().uuid()
-});
-
-export type CreateTaskResponse = z.infer<typeof createTaskSchemaResponse>;
 
 export const taskSchema = z.object({
   id: z.string().uuid(),
@@ -25,9 +20,9 @@ export const taskSchema = z.object({
 
 export type TaskSchema = z.infer<typeof taskSchema>;
 
-export type TaskResponse = TaskSchema;
+export type CreateTaskResponseOrError = TaskSchema | ErrorResponse;
 
-export type TaskResponseOrError = TaskResponse | { error: string | ZodIssue[] };
+export type TaskResponseOrError = CreateTaskResponseOrError;
 
 export const updateTaskSchema = z.object({
   title: z.string().optional(),

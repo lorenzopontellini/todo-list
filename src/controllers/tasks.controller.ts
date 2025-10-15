@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
 import { toTaskDto, toTaskDtoList } from "../utils/mapper";
-import { CreateTaskRequest, CreateTaskResponse, createTaskSchema, TaskResponse, TaskResponseOrError, TaskSchema, UpdateTaskRequest, updateTaskSchema } from "../schema/task.schema";
+import { CreateTaskRequest, CreateTaskResponseOrError, TaskResponseOrError, TaskSchema, UpdateTaskRequest } from "../schema/task.schema";
 
 export async function createTask(
-  req: Request<{}, CreateTaskResponse, CreateTaskRequest>, 
-  res: Response<CreateTaskResponse | { error: any }>
+  req: Request<{}, CreateTaskResponseOrError, CreateTaskRequest>, 
+  res: Response<CreateTaskResponseOrError>
 ) {
   
   const user = (req as any).user;
@@ -22,8 +22,8 @@ export async function createTask(
 }
 
 export async function listTasks(
-  req: Request<{}, TaskResponse[], {}>,
-  res: Response<TaskResponse[]>
+  req: Request<{}, TaskSchema[], {}>,
+  res: Response<TaskSchema[]>
 ) {
 
   const user = (req as any).user;
@@ -56,7 +56,7 @@ export async function getTask(
 
 
 export async function updateTask(
-  req: Request<{ id: string }, TaskResponseOrError, UpdateTaskRequest>,
+  req: Request<{ id: string }, CreateTaskResponseOrError, UpdateTaskRequest>,
   res: Response<TaskResponseOrError>
 ) {
 
@@ -83,7 +83,7 @@ export async function updateTask(
 
 export async function deleteTask(
   req: Request<{ id: string }, TaskResponseOrError, {}>,
-  res: Response<{}>
+  res: Response<TaskResponseOrError>
 ) {
 
   const user = (req as any).user;
