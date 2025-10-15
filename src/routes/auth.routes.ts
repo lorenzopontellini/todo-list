@@ -16,14 +16,14 @@ const router = Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/RegisterRequest'
+ *             $ref: '#/components/schemas/RegisterSchemaRequest'
  *     responses:
  *       201:
  *         description: User registered successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/RegisterResponse'
+ *               $ref: '#/components/schemas/UserSchema'
  *       400:
  *         description: Input validation failed
  */
@@ -41,14 +41,14 @@ router.post("/register", validateBody(registerSchemaRequest), register);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/LoginRequest'
+ *             $ref: '#/components/schemas/LoginSchemaRequest'
  *     responses:
  *       '200':
  *         description: Login successful response with JWT token
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/LoginResponse'
+ *               $ref: '#/components/schemas/LoginSchemaResponse'
  *       '400':
  *         description: Input validation error
  *         content:
@@ -69,14 +69,8 @@ router.post("/register", validateBody(registerSchemaRequest), register);
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: "Invalid credentials"
+ *               $ref: '#/components/schemas/ErrorResponseSchema'
  */
 router.post("/login", validateBody(loginSchemaRequest), login);
-
-
 
 export default router;

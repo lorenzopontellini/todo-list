@@ -2,8 +2,8 @@ import e from "express";
 import express from "express";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-import { optional } from "zod";
-import { ErrorResponseSchema, LoginSchemaRequest, LoginSchemaResponse, RegisterSchemaRequest, RegisterSchemaResponse, UserSchema, UserUpdateNameSchemaRequest } from ".";
+import { CreateTaskSchema, ErrorResponseSchema, LoginSchemaRequest, LoginSchemaResponse, RegisterSchemaRequest, TaskSchema, UpdateTaskSchema, UserSchema, UserUpdateNameSchemaRequest } from ".";
+import { unwrapSchema } from "../utils/utils";
 
 const router = express.Router();
 
@@ -23,43 +23,15 @@ const options = {
         }
       },
       schemas: {
-        // User: {
-        //   type: "object",
-        //   properties: {
-        //     id: { type: "string" },
-        //     email: { type: "string", format: "email" },
-        //     name: { type: "string", optional: true}
-        //   },
-        //   required: ["id", "email"],
-        //   example: { id: "123", email: "utente@example.com" }
-        // },
-        RegisterSchemaRequest,
-        RegisterSchemaResponse,
-        LoginSchemaRequest,
-        LoginSchemaResponse,
-        ErrorResponseSchema,
-        UserUpdateNameSchemaRequest,
-        UserSchema,
-        CreateTaskRequest: {
-          type: "object",
-          properties: {
-            id: { type: "string" },
-            title: { type: "string" },
-            description: { type: "string", optional: true },
-            userId: { type: "string" }
-          },
-          required: ["id", "title", "userId"]
-        },
-        CreateTaskResponse: {
-          type: "object",
-          properties: {
-            id: { type: "string" },
-            title: { type: "string" },
-            description: { type: "string", optional: true },
-            userId: { type: "string" }
-          },
-          required: ["id", "title", "userId"]
-        }
+        RegisterSchemaRequest: unwrapSchema(RegisterSchemaRequest) ,
+        LoginSchemaRequest: unwrapSchema(LoginSchemaRequest) ,
+        LoginSchemaResponse: unwrapSchema(LoginSchemaResponse) ,
+        ErrorResponseSchema: unwrapSchema(ErrorResponseSchema) ,
+        UserUpdateNameSchemaRequest: unwrapSchema(UserUpdateNameSchemaRequest) ,
+        UserSchema: unwrapSchema(UserSchema),
+        CreateTaskSchema: unwrapSchema(CreateTaskSchema),
+        TaskSchema: unwrapSchema(TaskSchema),
+        UpdateTaskSchema: unwrapSchema(UpdateTaskSchema)
       }
     }
   },

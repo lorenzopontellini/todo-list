@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { CreateUserRequest, CreateUserResponseOrError, LoginRequest, LoginResponseOrError} from "../schema/auth.schema";
 import { toUserDto } from "../utils/mapper";
-import { AuthRequest } from "../middlewares/auth.middleware";
 
 dotenv.config();
 

@@ -10,7 +10,7 @@ export const RegisterSchemaRequest = zodToJsonSchema(registerSchemaRequest, "Reg
 export const LoginSchemaRequest = zodToJsonSchema(loginSchemaRequest, "LoginSchemaRequest");
 export const LoginSchemaResponse = zodToJsonSchema(loginSchemaResponse, "LoginSchemaResponse");
 
-export const createTaskSchema = zodToJsonSchema(userSchema, "CreateTaskSchema");
+export const CreateTaskSchema = zodToJsonSchema(userSchema, "CreateTaskSchema");
 export const TaskSchema = zodToJsonSchema(userSchema, "TaskSchema");
 export const UpdateTaskSchema = zodToJsonSchema(userSchema, "UpdateTaskSchema");
 

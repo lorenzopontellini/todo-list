@@ -12,10 +12,10 @@ router.use(authMiddleware);
 
 /**
  * @openapi
- * /api/auth/me:
+ * /api/users/me:
  *   patch:
  *     tags:
- *       - Auth
+ *       - Users
  *     summary: Update the authenticated user's name
  *     security:
  *       - bearerAuth: []
@@ -24,68 +24,34 @@ router.use(authMiddleware);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - name
- *             properties:
- *               name:
- *                 type: string
- *                 example: "Nuovo Nome"
+ *             $ref: '#/components/schemas/UserUpdateNameSchemaRequest'
  *     responses:
  *       '200':
  *         description: User updated successfully
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: string
- *                   example: "123"
- *                 email:
- *                   type: string
- *                   format: email
- *                   example: "utente@example.com"
- *                 name:
- *                   type: string
- *                   example: "Nuovo Nome"
+ *              $ref: '#/components/schemas/UserSchema'
  *       '400':
  *         description: Input validation error
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       message:
- *                         type: string
- *                         example: "Missing required field: name"
+ *               $ref: '#/components/schemas/ErrorResponseSchema'
  *       '401':
  *         description: Not authorized / Missing or invalid token
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: "Unauthorized"
+ *               $ref: '#/components/schemas/ErrorResponseSchema'
  *       '500':
  *         description: Internal server error
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: "Error updating user"
+ *               $ref: '#/components/schemas/ErrorResponseSchema'
  */
-router.patch("/update", validateBody(userUpdateNameSchemaRequest), updateName);
+router.patch("/me", validateBody(userUpdateNameSchemaRequest), updateName);
 
 
 /**
@@ -93,7 +59,7 @@ router.patch("/update", validateBody(userUpdateNameSchemaRequest), updateName);
  * /api/users/me:
  *   get:
  *     tags:
- *       - Auth
+ *       - Users
  *     summary: Retrieve authenticated user's information
  *     security:
  *       - bearerAuth: []
