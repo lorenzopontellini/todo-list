@@ -2,8 +2,8 @@ import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth.middleware";
 
 import { validateBody } from "../utils/validation";
-import { updateNameSchema } from "../schema/schemas";
-import { updateName } from "../controllers/user.controller";
+import { userUpdateNameSchemaRequest } from "../schema/user.schema";
+import { me, updateName } from "../controllers/user.controller";
 
 const router = Router();
 
@@ -16,7 +16,7 @@ router.use(authMiddleware);
  *   patch:
  *     tags:
  *       - Auth
- *     summary: Aggiorna il nome dell'utente autenticato
+ *     summary: Update the authenticated user's name
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -33,7 +33,7 @@ router.use(authMiddleware);
  *                 example: "Nuovo Nome"
  *     responses:
  *       '200':
- *         description: Utente aggiornato con successo
+ *         description: User updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -50,7 +50,7 @@ router.use(authMiddleware);
  *                   type: string
  *                   example: "Nuovo Nome"
  *       '400':
- *         description: Errore di validazione input
+ *         description: Input validation error
  *         content:
  *           application/json:
  *             schema:
@@ -63,9 +63,9 @@ router.use(authMiddleware);
  *                     properties:
  *                       message:
  *                         type: string
- *                         example: "Il nome non può essere vuoto"
+ *                         example: "Missing required field: name"
  *       '401':
- *         description: Non autorizzato / Token mancante o non valido
+ *         description: Not authorized / Missing or invalid token
  *         content:
  *           application/json:
  *             schema:
@@ -75,7 +75,7 @@ router.use(authMiddleware);
  *                   type: string
  *                   example: "Unauthorized"
  *       '500':
- *         description: Errore interno del server
+ *         description: Internal server error
  *         content:
  *           application/json:
  *             schema:
@@ -83,8 +83,48 @@ router.use(authMiddleware);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Errore durante l'aggiornamento"
+ *                   example: "Error updating user"
  */
-router.patch("/update", validateBody(updateNameSchema), updateName);
+router.patch("/update", validateBody(userUpdateNameSchemaRequest), updateName);
+
+
+/**
+ * @openapi
+ * /api/users/me:
+ *   get:
+ *     tags:
+ *       - Auth
+ *     summary: Retrieve authenticated user's information
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: User information retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               #ref: '#/components/schemas/User'
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Bad Request"
+ *       '401':
+ *         description: Missing or invalid token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Unauthorized"
+ */
+router.get("/me", me);
 
 export default router;

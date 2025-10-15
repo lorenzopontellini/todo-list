@@ -2,7 +2,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ZodTypeAny, ZodError } from "zod";
 
-function validateBody<T extends ZodTypeAny>(schema: T) {
+export function validateBody<T extends ZodTypeAny>(schema: T) {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       req.body = schema.parse(req.body); // tipizzato & validato
@@ -18,4 +18,3 @@ function validateBody<T extends ZodTypeAny>(schema: T) {
     }
   };
 }
-export { validateBody };
