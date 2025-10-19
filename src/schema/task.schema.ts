@@ -4,7 +4,6 @@ import { ErrorResponse } from "./auth.schema";
 export const createTaskSchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
-  userId: z.string(),
   completed: z.boolean().default(false)
 });
 
