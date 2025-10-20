@@ -1,0 +1,210 @@
+{
+	"info": {
+		"_postman_id": "afb19049-7958-4df6-b209-c8cfc27dd864",
+		"name": "TODO API - Automated E2E Tests",
+		"description": "Automated end-to-end tests for TODO API using token propagation and response assertions.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33056082"
+	},
+	"item": [
+		{
+			"name": "Register User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 201', function () { pm.response.to.have.status(201); });",
+							"pm.test('Response has user id and email', function () {",
+							"  var json = pm.response.json();",
+							"  pm.expect(json).to.have.property('id');",
+							"  pm.expect(json).to.have.property('email');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"e2euser{{randomInt}}@test.com\",\n  \"password\": \"123456\",\n  \"name\": \"E2E User {{randomInt}}\"\n}"
+				},
+				"url": "{{baseUrl}}/api/auth/register"
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+							"var jsonData = pm.response.json();",
+							"pm.test('Response contains token', function () { pm.expect(jsonData).to.have.property('token'); });",
+							"pm.environment.set('token', jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"e2euser1@test.com\",\n  \"password\": \"123456\"\n}"
+				},
+				"url": "{{baseUrl}}/api/auth/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 201', function () { pm.response.to.have.status(201); });",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set('taskId', jsonData.id);",
+							"pm.test('Task contains id and email', function () {",
+							"  pm.expect(jsonData).to.have.property('id');",
+							"  pm.expect(jsonData).to.have.property('email');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"E2E Task Test\",\n  \"title\": \"Task esempio4\"\n}"
+				},
+				"url": "{{baseUrl}}/api/tasks"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Tasks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+							"pm.test('Response is array of tasks', function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.expect(jsonData).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": "{{baseUrl}}/api/tasks"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 204', function () { pm.response.to.have.status(204); });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": "{{baseUrl}}/api/tasks/{{taskId}}"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:4000"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "taskId",
+			"value": ""
+		}
+	]
+}
