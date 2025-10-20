@@ -10,15 +10,15 @@ services:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
-  # api:
-  #   build: .
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     DATABASE_URL: postgres://postgres:postgres@db:5432/todo_db
-  #     JWT_SECRET: supersecret_jwt_key_change_me
-  #     PORT: 4000
-  #   ports:
-  #     - "4000:4000"
+  api:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/todo_db
+      JWT_SECRET: supersecret_jwt_key_change_me
+      PORT: 4000
+    ports:
+      - "4000:4000"
 volumes:
   db-data:

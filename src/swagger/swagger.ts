@@ -11,7 +11,7 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Mio Todo API",
+      title: "TODO API",
       version: "1.0.0"
     },
     components: {
@@ -40,7 +40,11 @@ const options = {
 
 
 const openapiSpec = swaggerJsdoc(options);
-
+router.get("/api-docs.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(openapiSpec);
+});
 router.use("/", swaggerUi.serve, swaggerUi.setup(openapiSpec));
+
 
 export { router as swaggerRouter };
