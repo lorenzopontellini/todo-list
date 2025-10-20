@@ -96,12 +96,11 @@ npm test
 
 ## Postman Collection
 
-A ready-to-import Postman collection is included as `Tasks & Users API.postman_collection.json`, containing a full demo flow for:
-- Registration and login
-- Task CRUD
-- User info and update
+Two ready-to-import Postman collection are included: 
+- Manual: is intended to interact with backend to manually test requests
+- Automatic: is intended to use in a CI/CD environment with newman.
 
-Set the collection environment variable `token` after a successful `/auth/login`.
+NB: You have to set variables
 
 ## Possible Improvements
 
